@@ -1,6 +1,10 @@
-# mopidy-clojure-extravaganza
+# Mopidy Clojure Extravaganza 
 
-TODO
+Learning exercise/demo music player in need of tidying.
+
+Connects to a local [Mopidy](https://www.mopidy.com/) server and uses [Reagent](https://reagent-project.github.io/) to display a UI.
+
+Hey, [Clojurescript](http://clojurescript.org/) is neat, huh?
 
 ## Setup
 
