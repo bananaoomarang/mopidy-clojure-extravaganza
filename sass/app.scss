@@ -13,8 +13,21 @@
   @include span-columns(6);
 }
 
-.search-box {
-  > .field {
+.search-bar {
+  @include outer-container;
+
+  > .search-box {
+    @include span-columns(6);
+  }
+
+  > .search-opts {
+    @include span-columns(6);
+  }
+
+  > .search-opts > label {
+    display: inline-block;
+    padding-left: $small-spacing;
+    padding-top: 0.5em;
   }
 }
 

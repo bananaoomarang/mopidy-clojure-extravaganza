@@ -15,6 +15,8 @@
 
 (defonce app-state (atom {:playing? false
                           :current-track {}
+                          :search-spotify false
+                          :search-local false
                           :mopidy-online false
                           :queue []
                           :results [] }))
@@ -36,6 +38,10 @@
 (defn mopidy-online? []
   (:mopidy-online @app-state))
 
+(defn search-places []
+  (let [spotify (:search-spotify @app-state) local (:search-local @app-state)]
+    (filter some? [(if spotify "spotify:" nil) (if local "local:" nil)])))
+
 (defn mopidy-safe [f]
   (fn [& args]
     (if (mopidy-online?)
@@ -43,8 +49,9 @@
       (do (println "Mopidy online!") (new js/Promise #())))))
 
 (defn mopidy-search-unsafe [query]
+  (jlog (clj->js (search-places)))
   (let [search (.. mopidy -library -search)]
-    (let [res (search (clj->js { :any [query] }) (clj->js ["local:"]))]
+    (let [res (search (clj->js { :any [query] }) (clj->js (search-places)))]
       (.catch res jlog-error)
       (.then res (fn [tracks]
                    (->> tracks
@@ -89,6 +96,9 @@
 (def mopidy-clear-queue (mopidy-safe mopidy-clear-queue-unsafe))
 (def mopidy-get-track-list (mopidy-safe mopidy-get-track-list-unsafe))
 
+(defn clear-result []
+  (swap! app-state assoc :results []))
+
 (.on mopidy "event:tracklistChanged"
      (fn [e]
        (println "Tracklist changed!")
@@ -106,6 +116,26 @@
                             (mopidy-search (.. % -target -value))
                             (fn [res]
                               (swap! app-state assoc :results res))))}]])
+
+(defn search-check [label handler]
+  [:label
+   [:input.search-check {:type "checkbox"
+                         :defaultChecked true
+                         :on-click (if handler handler #(println "Check unhandled")) }] label])
+
+(defn search-opts []
+  [:div.search-opts
+   [search-check "Local" #(do
+                            (swap! app-state assoc :search-local (.. % -target -checked))
+                            (clear-result))]
+   [search-check "Spotify" #(do
+                              (swap! app-state assoc :search-spotify (.. % -target -checked))
+                              (clear-result))]])
+
+(defn search-bar []
+  [:div.search-bar
+   [search-box]
+   [search-opts]])
 
 (defn get-track-at [el]
   (get (:results @app-state) (js/Number (.. el -dataset -track))))
@@ -142,7 +172,7 @@
    [controls]
    [:hr]
    [:div.half
-    [search-box mopidy]
+    [search-bar]
     [track-list (:results @app-state) true]]
    [:div.half
     [:h2 "Queue"]

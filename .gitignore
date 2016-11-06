@@ -13,8 +13,8 @@ pom.xml
 .repl
 .nrepl-port
 node_modules
-.sass_cache/
+.sass-cache/
 *.css.map
 bundle.js
 bundle.min.js
-/resources/public/style.css
+/resources/public/css/style.css
