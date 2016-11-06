@@ -13,4 +13,5 @@ pom.xml
 .repl
 .nrepl-port
 node_modules
-/.sass_cache/
+.sass_cache/
+*.css.map
