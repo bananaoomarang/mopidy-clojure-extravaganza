@@ -1,0 +1,44 @@
+@import "normalize.css";
+@import "bourbon/bourbon";
+@import "base/base";
+@import "neat/neat";
+
+.container {
+  @include outer-container;
+
+  padding: $base-spacing;
+}
+
+.half {
+  @include span-columns(6);
+}
+
+.search-box {
+  > .field {
+  }
+}
+
+.track-list {
+  $border: 1px solid black;
+
+  > .track {
+    height: 3em;
+    border: $border;
+    border-bottom: none;
+  }
+
+  > .track:last-child {
+    border-bottom: $border;
+  }
+}
+
+.track-list.-clickable {
+  > .track {
+    cursor: pointer;
+  }
+
+  > .track:hover, > .track:active {
+    background-color: black;
+    color: white;
+  }
+}

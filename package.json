@@ -1,0 +1,17 @@
+{
+  "name": "mopidy-clojure-extravaganza",
+  "version": "1.0.0",
+  "description": "FIXME: Write a one-line description of your library/project.",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Milo Mordaunt <milomord@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "mopidy": "^0.5.0"
+  },
+  "devDependencies": {
+    "webpack": "^1.13.3"
+  }
+}
