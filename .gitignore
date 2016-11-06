@@ -15,3 +15,6 @@ pom.xml
 node_modules
 .sass_cache/
 *.css.map
+bundle.js
+bundle.min.js
+/resources/public/style.css
